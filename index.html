@@ -3,130 +3,213 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Interactive Quiz</title>
+    <title>ALTERNATIVE MUSIC</title>
     <style>
-        body {
-            font-family: Arial, sans-serif;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            min-height: 100vh;
+        * {
             margin: 0;
-            background-color: #0CC0DF; /* Background color */
+            padding: 0;
+            box-sizing: border-box;
         }
-        .container {
+
+        body {
+            font-family: Arial, sans-serif; /* Standard font */
             display: flex;
-            flex-direction: column;
-            align-items: center;
             justify-content: center;
-            width: 40%;
-            max-width: 800px;
-            background: white;
-            border-radius: 10px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3); /* Shadow */
-            padding: 20px;
-        }
-        img {
-            width: 100%;
-            height: auto;
-            border-radius: 10px;
-            cursor: pointer;
-            border: 5px solid #0CC0DF; /* Outer blue border color */
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-        }
-        .qa-box {
-            margin-top: 20px;
+            align-items: center;
+            height: 100vh;
+            background-color: transparent; /* Fully transparent background */
+            color: black; /* Standard text color */
             text-align: center;
         }
-        .question {
-            font-size: 1.4em;
-            font-weight: bold;
-            margin-bottom: 10px;
-            color: #333;
+
+        #quiz-container {
+            background-color: transparent; /* Fully transparent container */
+            padding: 20px;
+            max-width: 600px;
+            width: 100%;
         }
+
+        #logo {
+            width: 150px;
+            margin-bottom: 20px;
+        }
+
+        h1 {
+            font-size: 2rem;
+            margin-bottom: 20px;
+        }
+
+        .question {
+            font-size: 1.5rem;
+            margin-bottom: 10px;
+        }
+
         .answer {
-            font-size: 1.2em;
-            color: #555;
-            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3); /* Text shadow */
+            font-size: 1.2rem;
+            margin-bottom: 30px;
+            color: white; /* Change the answer color to white */
+        }
+
+        #next-button {
+            background-color: white; /* Change background color to white */
+            color: black; /* Change text color to black for visibility */
+            border: 2px solid #ff9900; /* Optional: Add a border for better visibility */
+            padding: 15px;
+            margin-top: 20px;
+            border-radius: 10px;
+            cursor: pointer;
+            font-size: 1rem;
+            transition: all 0.3s ease-in-out;
+        }
+
+        #next-button:hover {
+            background-color: #ffcc00; /* Change hover color for better effect */
+        }
+
+        @keyframes fadeOut {
+            from {
+                opacity: 1;
+            }
+            to {
+                opacity: 0;
+            }
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+            to {
+                opacity: 1;
+            }
+        }
+
+        .fadeOut {
+            animation: fadeOut 0.5s forwards;
+        }
+
+        .fadeIn {
+            animation: fadeIn 0.5s forwards;
         }
     </style>
 </head>
 <body>
-    <div class="container">
-        <img id="quizImage" src="https://i.imgur.com/JQFXsaJ.png" alt="Quiz Image">
-        <div class="qa-box">
-            <div id="question" class="question">Click the image to get a question!</div>
-            <div id="answer" class="answer"></div>
-        </div>
+
+<div id="quiz-container">
+    <img id="logo" src="https://i.imgur.com/cyZ0Z21.png" alt="George Michael Logo">
+    <h1>ALTERNATIVE MUSIC</h1>
+    <div id="question-container">
+        <div class="question" id="question">Loading question...</div>
+        <div class="answer" id="answer">Loading answer...</div>
+        <button id="next-button" onclick="nextQuestion()">Next Question</button>
     </div>
-    
-    <script>
-        const questionsAndAnswers = [
-            { question: "Which 1990s band released the album 'Nevermind'?", answer: "Nirvana" },
-            { question: "Who is the lead singer of Radiohead?", answer: "Thom Yorke" },
-            { question: "What was the debut album of Oasis, released in 1994?", answer: "Definitely Maybe" },
-            { question: "Which alternative band released 'Dookie' in 1994?", answer: "Green Day" },
-            { question: "Who is the lead vocalist of Smashing Pumpkins?", answer: "Billy Corgan" },
-            { question: "Which alternative band is known for the hit song 'Creep'?", answer: "Radiohead" },
-            { question: "What 1995 album by The Smashing Pumpkins was a commercial success?", answer: "Mellon Collie and the Infinite Sadness" },
-            { question: "Which American band released the song 'Seven Nation Army' in 2003?", answer: "The White Stripes" },
-            { question: "Which 1990s band released the iconic track 'Song 2'?", answer: "Blur" },
-            { question: "Who released the 1992 album 'Automatic for the People'?", answer: "R.E.M." },
-            { question: "What album by The Strokes is credited with reinvigorating the garage rock sound?", answer: "Is This It" },
-            { question: "Who released the 2000 album 'Kid A'?", answer: "Radiohead" },
-            { question: "Which band became popular with the 2004 album 'Hot Fuss'?", answer: "The Killers" },
-            { question: "What was the name of the debut album by Arctic Monkeys?", answer: "Whatever People Say I Am, That's What I'm Not" },
-            { question: "Which American alternative rock band is known for the song 'Everlong'?", answer: "Foo Fighters" },
-            { question: "Which band's lead singer is known for his eccentric style and the hit 'Loser'?", answer: "Beck" },
-            { question: "Who is the lead vocalist of Pearl Jam?", answer: "Eddie Vedder" },
-            { question: "Which band released 'Californication' in 1999?", answer: "Red Hot Chili Peppers" },
-            { question: "What was the breakthrough album for the band Coldplay?", answer: "Parachutes" },
-            { question: "Which band released 'Wonderwall' in 1995?", answer: "Oasis" },
-            { question: "What is the name of the 1997 Radiohead album often regarded as a masterpiece?", answer: "OK Computer" },
-            { question: "Which band released the track 'Smells Like Teen Spirit'?", answer: "Nirvana" },
-            { question: "Who is the lead singer of The Cure?", answer: "Robert Smith" },
-            { question: "Which band released the hit song 'Zombie' in the 1990s?", answer: "The Cranberries" },
-            { question: "Which alternative band from the 1990s is known for the album 'Siamese Dream'?", answer: "The Smashing Pumpkins" },
-            { question: "Who released the album 'Elephant' in 2003?", answer: "The White Stripes" },
-            { question: "Which band is known for the track 'Bittersweet Symphony'?", answer: "The Verve" },
-            { question: "Which American band fronted by Chris Cornell released 'Black Hole Sun'?", answer: "Soundgarden" },
-            { question: "What band, formed by Dave Grohl after the demise of Nirvana, became successful in the 90s?", answer: "Foo Fighters" },
-            { question: "Which alternative band released 'In the Aeroplane Over the Sea'?", answer: "Neutral Milk Hotel" },
-            { question: "Who released the hit song 'Last Nite' in 2001?", answer: "The Strokes" },
-            { question: "Which British band released 'The Bends' in 1995?", answer: "Radiohead" },
-            { question: "Who released the 1998 album 'Adore'?", answer: "The Smashing Pumpkins" },
-            { question: "Which band released 'By the Way' in 2002?", answer: "Red Hot Chili Peppers" },
-            { question: "What 1994 album by Weezer became a cult classic?", answer: "Weezer (Blue Album)" },
-            { question: "Who is the lead singer of the band Tool?", answer: "Maynard James Keenan" },
-            { question: "Which 2000s band became famous for their energetic live performances and the song 'Mr. Brightside'?", answer: "The Killers" },
-            { question: "Which alternative band is known for the song 'Where Is My Mind?'?", answer: "Pixies" },
-            { question: "What was the debut album of My Chemical Romance?", answer: "I Brought You My Bullets, You Brought Me Your Love" },
-            { question: "Which band from the 90s had hits with songs like 'Basket Case'?", answer: "Green Day" },
-            { question: "Which American band released 'Good News for People Who Love Bad News'?", answer: "Modest Mouse" },
-            { question: "What band released 'Siamese Dream' in 1993?", answer: "The Smashing Pumpkins" },
-            { question: "Which band had a 1991 hit with the album 'Ten'?", answer: "Pearl Jam" },
-            { question: "Who released the track 'My Own Worst Enemy' in 1999?", answer: "Lit" },
-            { question: "Which British band released 'Parklife' in 1994?", answer: "Blur" },
-            { question: "Who is the lead singer of the band Muse?", answer: "Matt Bellamy" },
-            { question: "What 2000s band is known for the hit 'Take Me Out'?", answer: "Franz Ferdinand" },
-            { question: "Which British band released the 2007 album 'Favourite Worst Nightmare'?", answer: "Arctic Monkeys" },
-            { question: "Who is the lead vocalist of the band The White Stripes?", answer: "Jack White" },
-            { question: "Which band released the 2005 album 'Demon Days'?", answer: "Gorillaz" },
-            { question: "Which 90s band is known for their grunge sound and the song 'Alive'?", answer: "Pearl Jam" },
-            { question: "Who released the 2002 album 'A Rush of Blood to the Head'?", answer: "Coldplay" },
-            { question: "Which 90s band had a hit with 'Plush'?", answer: "Stone Temple Pilots" },
-            { question: "Who is the lead singer of the band Placebo?", answer: "Brian Molko" },
-            { question: "What band released the hit song 'Clint Eastwood'?", answer: "Gorillaz" },
-        ];
+</div>
 
-        document.getElementById('quizImage').addEventListener('click', function() {
-            const randomIndex = Math.floor(Math.random() * questionsAndAnswers.length);
-            const question = questionsAndAnswers[randomIndex].question;
-            const answer = questionsAndAnswers[randomIndex].answer;
+<script>
+    // Question and answers data
+    const quizData = [
+        { question: "Which 1990s band released the album Nevermind?", answer: "Nirvana" },
+        { question: "Who is the lead singer of Radiohead?", answer: "Thom Yorke" },
+        { question: "What was the debut album of Oasis, released in 1994?", answer: "Definitely Maybe" },
+        { question: "Which alternative band released Dookie in 1994?", answer: "Green Day" },
+        { question: "Who is the lead vocalist of Smashing Pumpkins?", answer: "Billy Corgan" },
+        { question: "Which alternative band is known for the hit song Creep?", answer: "Radiohead" },
+        { question: "What 1995 album by The Smashing Pumpkins was a commercial success?", answer: "Mellon Collie and the Infinite Sadness" },
+        { question: "Which American band released the song Seven Nation Army in 2003?", answer: "The White Stripes" },
+        { question: "Which 1990s band released the iconic track Song 2?", answer: "Blur" },
+        { question: "Who released the 1992 album Automatic for the People?", answer: "R.E.M." },
+        { question: "What album by The Strokes is credited with reinvigorating the garage rock sound?", answer: "Is This It" },
+        { question: "Who released the 2000 album Kid A?", answer: "Radiohead" },
+        { question: "Which band became popular with the 2004 album Hot Fuss?", answer: "The Killers" },
+        { question: "What was the name of the debut album by Arctic Monkeys?", answer: "Whatever People Say I Am, That's What I'm Not" },
+        { question: "Which American alternative rock band is known for the song Everlong?", answer: "Foo Fighters" },
+        { question: "Which band's lead singer is known for his eccentric style and the hit Loser?", answer: "Beck" },
+        { question: "Who is the lead vocalist of Pearl Jam?", answer: "Eddie Vedder" },
+        { question: "Which band released Californication in 1999?", answer: "Red Hot Chili Peppers" },
+        { question: "What was the breakthrough album for the band Coldplay?", answer: "Parachutes" },
+        { question: "Which band released Wonderwall in 1995?", answer: "Oasis" },
+        { question: "What is the name of the 1997 Radiohead album often regarded as a masterpiece?", answer: "OK Computer" },
+        { question: "Which band released the track Smells Like Teen Spirit?", answer: "Nirvana" },
+        { question: "Who is the lead singer of The Cure?", answer: "Robert Smith" },
+        { question: "Which band released the hit song Zombie in the 1990s?", answer: "The Cranberries" },
+        { question: "Which alternative band from the 1990s is known for the album Siamese Dream?", answer: "The Smashing Pumpkins" },
+        { question: "Who released the album Elephant in 2003?", answer: "The White Stripes" },
+        { question: "Which band is known for the track Bittersweet Symphony?", answer: "The Verve" },
+        { question: "Which American band fronted by Chris Cornell released Black Hole Sun?", answer: "Soundgarden" },
+        { question: "What band, formed by Dave Grohl after the demise of Nirvana, became successful in the '90s?", answer: "Foo Fighters" },
+        { question: "Which alternative band released In the Aeroplane Over the Sea?", answer: "Neutral Milk Hotel" },
+        { question: "Who released the hit song Last Nite in 2001?", answer: "The Strokes" },
+        { question: "Which British band released The Bends in 1995?", answer: "Radiohead" },
+        { question: "Who released the 1998 album Adore?", answer: "The Smashing Pumpkins" },
+        { question: "Which band released By the Way in 2002?", answer: "Red Hot Chili Peppers" },
+        { question: "What 1994 album by Weezer became a cult classic?", answer: "Weezer (Blue Album)" },
+        { question: "Who is the lead singer of the band Tool?", answer: "Maynard James Keenan" },
+        { question: "Which 2000s band became famous for their energetic live performances and the song Mr. Brightside?", answer: "The Killers" },
+        { question: "Which alternative band is known for the song Where Is My Mind?", answer: "Pixies" },
+        { question: "What was the debut album of My Chemical Romance?", answer: "I Brought You My Bullets, You Brought Me Your Love" },
+        { question: "Which band from the '90s had hits with songs like Basket Case?", answer: "Green Day" },
+        { question: "Which American band released Good News for People Who Love Bad News?", answer: "Modest Mouse" },
+        { question: "What band released Siamese Dream in 1993?", answer: "The Smashing Pumpkins" },
+        { question: "Which band had a 1991 hit with the album Ten?", answer: "Pearl Jam" },
+        { question: "Who released the track My Own Worst Enemy in 1999?", answer: "Lit" },
+        { question: "Which British band released Parklife in 1994?", answer: "Blur" },
+        { question: "Who is the lead singer of the band Muse?", answer: "Matt Bellamy" },
+        { question: "What 2000s band is known for the hit Take Me Out?", answer: "Franz Ferdinand" },
+        { question: "Which British band released the 2007 album Favourite Worst Nightmare?", answer: "Arctic Monkeys" },
+        { question: "Who is the lead vocalist of the band The White Stripes?", answer: "Jack White" },
+        { question: "Which band released the 2005 album Demon Days?", answer: "Gorillaz" },
+        { question: "'90s band is known for their grunge sound and the song Alive?", answer: "Pearl Jam" },
+        { question: "Who released the 2002 album A Rush of Blood to the Head?", answer: "Coldplay" },
+        { question: "Which '90s band had a hit with Plush?", answer: "Stone Temple Pilots" },
+        { question: "Who is the lead singer of the band Placebo?", answer: "Brian Molko" },
+        { question: "What band released the hit song Clint Eastwood?", answer: "Gorillaz" }
+    ];
 
-            document.getElementById('question').textContent = question;
-            document.getElementById('answer').textContent = answer;
-        });
-    </script>
+    let currentQuestionIndex = 0;
+
+    // Shuffle the quiz data
+    function shuffle(array) {
+        for (let i = array.length - 1; i > 0; i--) {
+            const j = Math.floor(Math.random() * (i + 1));
+            [array[i], array[j]] = [array[j], array[i]];
+        }
+    }
+
+    // Start the quiz
+    shuffle(quizData);
+    showQuestion();
+
+    function showQuestion() {
+        const questionContainer = document.getElementById("question");
+        const answerContainer = document.getElementById("answer");
+
+        questionContainer.innerText = quizData[currentQuestionIndex].question;
+        answerContainer.innerText = "Loading answer...";
+
+        // Fade in effect
+        answerContainer.classList.remove("fadeIn");
+        answerContainer.classList.add("fadeOut");
+
+        setTimeout(() => {
+            answerContainer.innerText = quizData[currentQuestionIndex].answer;
+            answerContainer.classList.remove("fadeOut");
+            answerContainer.classList.add("fadeIn");
+        }, 500);
+    }
+
+    function nextQuestion() {
+        currentQuestionIndex++;
+        if (currentQuestionIndex < quizData.length) {
+            showQuestion();
+        } else {
+            const questionContainer = document.getElementById("question");
+            const answerContainer = document.getElementById("answer");
+            questionContainer.innerText = "Thank you for playing!";
+            answerContainer.innerText = "";
+            document.getElementById("next-button").style.display = "none"; // Hide the next button
+        }
+    }
+</script>
+
 </body>
 </html>
